@@ -23,6 +23,14 @@ public class Persona {
 		this.pos=pos;
 	}
 	
+	public Persona(String nombre, String apellido, char sexo, Date fecha) {
+		this.nombre=nombre;
+		this.apellido=apellido;
+		this.sexo=sexo;
+		this.fecha=fecha;
+		
+	}
+	
 	public String getNombre() {
         return nombre;
     }

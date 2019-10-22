@@ -11,16 +11,12 @@ public class Amistad {
 	 this.persona2 = per2;
  }
  
- 
  public Persona getPersona1() {
        return persona1;
    }
-
-   
 
    public Persona getPersona2() {
        return persona2;
    }
 
- 
 }

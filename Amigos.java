@@ -63,7 +63,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 			
 		}
 		bf.close();
-		ignorarLineas(ignorados);
+		//ignorarLineas(ignorados);
 	}
 	
 	public static void ignorarLineas(ArrayList<String> ignorados) {
@@ -170,7 +170,8 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 		String[] amigo;
 		String[] amigo1;
 		String[] amigo2;
-		String posaux;
+		String posAux;
+		String fecAux;
 		String aux []; 
 		Pattern p =  Pattern.compile(regExRelacion);
 		Matcher m = p.matcher(cadena);
@@ -193,15 +194,17 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 					int persona1 = Integer.parseInt(aux[0]);
 					int nivel = Integer.parseInt(aux[1]);
 					//Buscar amigos por nivel (posicion)
-			
+					g.buscarCamino(persona1, nivel);
 					return;
 			}else {
 				aux = amigo[1].split(",");
-				posaux = aux[3].substring(10, aux[3].length());
-				aux[3] = aux[3].substring(0, 10);
-				String posfinal = posaux.replaceAll(" ", "");
+				posAux = aux[3].substring(10, aux[3].length());
+				fecAux = aux[3].substring(0, 10);
+				p1 = new Persona(aux[0],aux[1],aux[2].charAt(0),cadenaToFecha(fecAux));
+				String posfinal = posAux.replaceAll(" ", "");
 				System.out.println("No son numeros");
 				//Buscar amigos por nivel (nombre)
+				g.buscarCamino(p1, Integer.parseInt(posfinal));
 				return;
 			}
 			
@@ -213,14 +216,17 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 				int persona1 = Integer.parseInt(amigo[0]);
 				int persona2 = Integer.parseInt(amigo[1]);
 				//Buscar Amistades
+				System.out.println(g.buscarAmistad(persona1,persona2));
 				return;
 			}
 			amigo1= amigo[0].split(",");
 			amigo2= amigo[1].split(",");
 			p1 = new Persona(amigo1[0],amigo1[1],amigo1[2].charAt(0),cadenaToFecha(amigo1[3]),g.personas.size()+1);
 			p2 = new Persona(amigo2[0],amigo2[1],amigo2[2].charAt(0),cadenaToFecha(amigo2[3]),g.personas.size()+1);
+			
 			//Buscar Amistades
 			
+			System.out.println(g.buscarAmistad(p1,p2));
 			
 			//g.obtenPersona(p1).amistades.remove(new Amistad(g.obtenPersona(p1),g.obtenPersona(p2)));
 			//g.obtenPersona(p2).amistades.remove(new Amistad(g.obtenPersona(p2),g.obtenPersona(p1)));
