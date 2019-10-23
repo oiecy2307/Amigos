@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class RedDeAmistades {
 	public ArrayList<Persona> personas = new ArrayList<Persona>();
 	public ArrayList<Persona> visitados = new ArrayList<Persona>();
+	public ArrayList<String> ignorados = new ArrayList<String>();
 
 	public ArrayList<Persona> getPersonas() {
 		return personas;
@@ -97,11 +98,9 @@ public class RedDeAmistades {
 		// int target = 3;
 
 		if (this.existePersona(source))
-
-			trazarCamino(source, target, nivel, nivelamigos);
-		for (int i = 0; i < nivelamigos.size(); i++) {
-			System.out.println(nivelamigos.get(i).toString());
-		}
+        
+			nivelamigos=trazarCamino(this.obtenPersona(source),  target);
+		if (nivelamigos!=null)nivelamigos.forEach(x->System.out.println(x.nombre));
 		System.out.println("Son amigos de nivel " + target + " de " + source);
 		// quitar comparacion
 
@@ -199,21 +198,10 @@ public class RedDeAmistades {
 						}
 					}
 				}
-				/*nivelActual.forEach(x -> { // x es cada node del nivel actual
-					//System.out.println("x  es " + x.nombre);
-					x.getAmistades().forEach(y -> { // y es cada amistad de x
-						//System.out.println("y  es " + y.persona2.nombre);
-						if (!(visitados.contains(y.persona2) || nivelSig.contains(y.persona2))&& !nivelActual.contains(nivelSig)) {
-							nivelSig.add(y.persona2);
-						}
-					});
-				});
-				*/
+			
 				 for(Persona x : nivelActual ) {
 					visitados.add(x);
 				}
-					
-					
 					// Añadir los del nivel actual a visitados
 				
 				nivelActual.clear();
@@ -226,29 +214,7 @@ public class RedDeAmistades {
 		return nivelActual;
 	}
 
-	private boolean trazarCamino(int source, int target, int nivel, ArrayList<Persona> amigosnivel) {
 
-		ArrayList<Amistad> adyacentes = obtenPersona(source).getAmistades();
-		nivel++;
-
-		if (target == nivel) {
-			System.out.println("El objetivo " + target + " es igual a " + nivel);
-			for (int j = 0; j < adyacentes.size(); j++) {
-				amigosnivel.add(adyacentes.get(j).persona2);
-
-			}
-			return true;
-		}
-		for (int i = 0; i < adyacentes.size(); i++) {
-
-			// trazarCamino(adyacentes.get(i).persona2, target, nivel, amigosnivel);
-
-		}
-
-		// visited.remove(visited.get(visited.size()-1));
-		nivel--;
-		return false;
-	}
 
 	/*
 	 * Este metodo busca un nodo dentro del grafo en base a la ciudad, si lo

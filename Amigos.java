@@ -24,8 +24,9 @@ public class Amigos {
 	
 		
 		RedDeAmistades g = new RedDeAmistades();
-		leerCatalogo("Personas.txt", g);
-		leerRelaciones("Relaciones.txt", g);
+		leerCatalogo("catalogo.txt", g);
+		leerRelaciones("relacione.txt", g);
+		ignorarLineas(g.ignorados);
 	}
 	
 	public static void main(String [] args) throws IOException{
@@ -34,18 +35,18 @@ public class Amigos {
 	public  void leerCatalogo(String archivo, RedDeAmistades g) throws FileNotFoundException, IOException {
 		
 		String cadena;
-		ArrayList<String> ignorados = new ArrayList<String>();
+		//ArrayList<String> ignorados = new ArrayList<String>();
 		FileReader fr = new FileReader(archivo);
 		BufferedReader bf = new BufferedReader(fr);
 		
 		while((cadena = bf.readLine())!=null) {
 			
-			revisarPatronAmigos(cadena,  g, ignorados);
+			revisarPatronAmigos(cadena,  g);
 			
 			
 		}
 		bf.close();
-		ignorarLineas(ignorados);
+		//ignorarLineas(ignorados);
 	}
 	
 	
@@ -58,7 +59,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 		
 		while((cadena = bf.readLine())!=null) {
 			
-			revisarPatronRelaciones(cadena,  g, ignorados);
+			revisarPatronRelaciones(cadena,  g);
 			
 			
 		}
@@ -107,7 +108,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 	 
 	}
 	
-	public static void revisarPatronAmigos(String cadena, RedDeAmistades g, ArrayList<String> ignorados) {
+	public static void revisarPatronAmigos(String cadena, RedDeAmistades g) {
 	
 		String regEx1 = "([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}/\\d{2}/\\d{4})";
 		String[] amigo;
@@ -135,7 +136,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 		
 		//Si la cadena no satisface a la expresion regular, el metodo termina, permitiendo una nueva ejecucion con la siguiente cadena.
 		//System.out.println("Linea Invalida");
-		 ignorados.add(cadena);
+		 g.ignorados.add(cadena);
 		return;
 		
 	}
@@ -148,21 +149,33 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 	        return false;
 	    }
 	}
-	public static void revisarPatronRelaciones(String cadena, RedDeAmistades g, ArrayList<String> ignorados) {
+	public static void revisarPatronRelaciones(String cadena, RedDeAmistades g) {
 	
 		String regExRelacion = 
 				//Agrega Relacion
 				"\\d+\\s*amigo\\s*\\d+|"
 				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
 				+ "amigo\\s*(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))|"
+				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
+				+ "amigo\\s*\\d+|"
+				+"\\d+\\s*amigo"
+				+"(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*|"
 				//Eliminar Relacion
 				+ "\\d+\\s*eliminar\\s*\\d+|"
 				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
 				+ "eliminar\\s*(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))|"
+				+ "\\d+\\s*eliminar\\s*"
+				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*|"
+				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
+				+ "eliminar\\s*\\d+|"
 				//Preguntar amistad
 				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
 				+ "amigos\\s*(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))"
 				+ "|\\d+\\s*amigos\\s*\\d+|"
+				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
+				+ "amigos\\s*\\d+|"
+				+ "\\d+\\s*amigos\\s*"
+				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*|"
 				//Preguntar nivel
 				+ "amigos\\s*\\d+\\s+\\d+|"
 				+ "amigos\\s*(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*\\d+";
@@ -212,11 +225,34 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 			
 			
 			amigo = cadena.split("\\s*amigos\\s*");
-			if(isInteger(amigo[0])||isInteger(amigo[1])) {
+			if(isInteger(amigo[0])&&isInteger(amigo[1])) {
 				int persona1 = Integer.parseInt(amigo[0]);
 				int persona2 = Integer.parseInt(amigo[1]);
 				//Buscar Amistades
-				System.out.println(g.buscarAmistad(persona1,persona2));
+ 				System.out.println(g.buscarAmistad(persona1,persona2));
+				return;
+			}
+			if(isInteger(amigo[1])) {
+				amigo1= amigo[0].split(",");
+				amigo2= amigo[1].split(",");
+				p1 = new Persona(amigo1[0],amigo1[1],amigo1[2].charAt(0),cadenaToFecha(amigo1[3]),g.personas.size()+1);
+				int persona2 = Integer.parseInt(amigo[1]);
+				//Buscar Amistades
+			
+ 				System.out.println(g.buscarAmistad(p1,g.obtenPersona(persona2)));
+				
+				return;
+			}
+			if(isInteger(amigo[0])) {
+				amigo1= amigo[0].split(",");
+				amigo2= amigo[1].split(",");
+				int persona1 = Integer.parseInt(amigo[0]);
+				p2 = new Persona(amigo2[0],amigo2[1],amigo2[2].charAt(0),cadenaToFecha(amigo2[3]),g.personas.size()+1);
+				
+				//Buscar Amistades
+			
+ 				System.out.println(g.buscarAmistad(g.obtenPersona(persona1),p2));
+				
 				return;
 			}
 			amigo1= amigo[0].split(",");
@@ -240,12 +276,35 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 		if(cadena.contains("amigo")){
 			//aux = m.group().replaceAll("(,)", " ");
 			amigo = cadena.split("\\s*amigo\\s*");
-			if(isInteger(amigo[0])||isInteger(amigo[1])) {
+			if(isInteger(amigo[0])&&isInteger(amigo[1])) {
 				int persona1 = Integer.parseInt(amigo[0]);
 				int persona2 = Integer.parseInt(amigo[1]);
 				//Mejorar los metodos addAmistad
 				g.obtenPersona(persona1).addAmistad(new Amistad(g.obtenPersona(persona1),g.obtenPersona(persona2)));
 				g.obtenPersona(persona2).addAmistad(new Amistad(g.obtenPersona(persona2),g.obtenPersona(persona1)));
+				return;
+			}
+			
+			if(isInteger(amigo[1])) {
+				amigo1= amigo[0].split(",");
+				amigo2= amigo[1].split(",");
+				p1 = new Persona(amigo1[0],amigo1[1],amigo1[2].charAt(0),cadenaToFecha(amigo1[3]),g.personas.size()+1);
+				int persona2 = Integer.parseInt(amigo[1]);
+				//Mejorar los metodos addAmistad
+				g.obtenPersona(p1).addAmistad(new Amistad(g.obtenPersona(p1),g.obtenPersona(persona2)));
+				g.obtenPersona(persona2).addAmistad(new Amistad(g.obtenPersona(persona2),g.obtenPersona(p1)));
+				return;
+			}
+			
+			if(isInteger(amigo[0])) {
+				amigo1= amigo[0].split(",");
+				amigo2= amigo[1].split(",");
+				int persona1 = Integer.parseInt(amigo[0]);
+				p2 = new Persona(amigo2[0],amigo2[1],amigo2[2].charAt(0),cadenaToFecha(amigo2[3]),g.personas.size()+1);
+				
+				//Mejorar los metodos addAmistad
+				g.obtenPersona(persona1).addAmistad(new Amistad(g.obtenPersona(persona1),g.obtenPersona(p2)));
+				g.obtenPersona(p2).addAmistad(new Amistad(g.obtenPersona(p2),g.obtenPersona(persona1)));
 				return;
 			}
 			
@@ -264,14 +323,34 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 		if(cadena.contains("eliminar")){
 			//aux = m.group().replaceAll("(,)", " ");
 			amigo = cadena.split("\\s*eliminar\\s*");
-			if(isInteger(amigo[0])||isInteger(amigo[1])) {
+			if(isInteger(amigo[0])&&isInteger(amigo[1])) {
 				int persona1 = Integer.parseInt(amigo[0]);
 				int persona2 = Integer.parseInt(amigo[1]);
 				g.obtenPersona(persona1).eliminarAmistad(persona2);
 				g.obtenPersona(persona2).eliminarAmistad(persona1);
 				return;
 			}
-			
+			if(isInteger(amigo[1])) {
+				amigo1= amigo[0].split(",");
+				amigo2= amigo[1].split(",");
+				p1 = new Persona(amigo1[0],amigo1[1],amigo1[2].charAt(0),cadenaToFecha(amigo1[3]),g.personas.size()+1);
+				int persona2 = Integer.parseInt(amigo[1]);
+				//Mejorar los metodos addAmistad
+				g.obtenPersona(p1).eliminarAmistad(persona2);
+				g.obtenPersona(persona2).eliminarAmistad(p1);
+				return;
+			}
+			if(isInteger(amigo[0])) {
+				amigo1= amigo[0].split(",");
+				amigo2= amigo[1].split(",");
+				int persona1 = Integer.parseInt(amigo[0]);
+				p2 = new Persona(amigo2[0],amigo2[1],amigo2[2].charAt(0),cadenaToFecha(amigo2[3]),g.personas.size()+1);
+				
+				//Mejorar los metodos addAmistad
+				g.obtenPersona(persona1).eliminarAmistad(p2);//.addAmistad(new Amistad(g.obtenPersona(persona1),g.obtenPersona(p2)));
+				g.obtenPersona(p2).eliminarAmistad(persona1);//.addAmistad(new Amistad(g.obtenPersona(p2),g.obtenPersona(persona1)));
+				return;
+			}
 			//amigo = cadena.split("\\s*amigo\\s*");
 			amigo1= amigo[0].split(",");
 			amigo2= amigo[1].split(",");
@@ -296,7 +375,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 		
 		//Si la cadena no satisface a la expresion regular, el metodo termina, permitiendo una nueva ejecucion con la siguiente cadena.
 		 System.out.println("Linea Invalida");
-		 ignorados.add(cadena);
+		 g.ignorados.add(cadena);
 		return;
 	}
 	
