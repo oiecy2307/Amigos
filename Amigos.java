@@ -27,12 +27,13 @@ public class Amigos {
 		leerCatalogo("catalogo.txt", g);
 		leerRelaciones("relacione.txt", g);
 		ignorarLineas(g.ignorados);
+		
 	}
 	
 	public static void main(String [] args) throws IOException{
 		new Amigos();
 	}
-	public  void leerCatalogo(String archivo, RedDeAmistades g) throws FileNotFoundException, IOException {
+	public  static void leerCatalogo(String archivo, RedDeAmistades g) throws FileNotFoundException, IOException {
 		
 		String cadena;
 		//ArrayList<String> ignorados = new ArrayList<String>();
@@ -50,7 +51,7 @@ public class Amigos {
 	}
 	
 	
-public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoundException, IOException {
+public static void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoundException, IOException {
 		
 		String cadena;
 		ArrayList<String> ignorados = new ArrayList<String>();
@@ -160,6 +161,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 				+ "amigo\\s*\\d+|"
 				+"\\d+\\s*amigo"
 				+"(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*|"
+				
 				//Eliminar Relacion
 				+ "\\d+\\s*eliminar\\s*\\d+|"
 				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
@@ -168,6 +170,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*|"
 				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
 				+ "eliminar\\s*\\d+|"
+				
 				//Preguntar amistad
 				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*"
 				+ "amigos\\s*(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))"
@@ -176,6 +179,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 				+ "amigos\\s*\\d+|"
 				+ "\\d+\\s*amigos\\s*"
 				+ "(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*|"
+				
 				//Preguntar nivel
 				+ "amigos\\s*\\d+\\s+\\d+|"
 				+ "amigos\\s*(([a-zA-Z\\s*]{1,20})\\s*,\\s*([a-zA-Z\\s*]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{2}[/]\\d{2}[/]\\d{4}))\\s*\\d+";
@@ -215,7 +219,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 				fecAux = aux[3].substring(0, 10);
 				p1 = new Persona(aux[0],aux[1],aux[2].charAt(0),cadenaToFecha(fecAux));
 				String posfinal = posAux.replaceAll(" ", "");
-				System.out.println("No son numeros");
+				//System.out.println("No son numeros");
 				//Buscar amigos por nivel (nombre)
 				g.buscarCamino(p1, Integer.parseInt(posfinal));
 				return;
@@ -229,7 +233,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 				int persona1 = Integer.parseInt(amigo[0]);
 				int persona2 = Integer.parseInt(amigo[1]);
 				//Buscar Amistades
- 				System.out.println(g.buscarAmistad(persona1,persona2));
+ 				System.out.println(persona1 + " amigos  " + persona2 + " ? " + g.buscarAmistad(persona1,persona2));
 				return;
 			}
 			if(isInteger(amigo[1])) {
@@ -239,7 +243,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 				int persona2 = Integer.parseInt(amigo[1]);
 				//Buscar Amistades
 			
- 				System.out.println(g.buscarAmistad(p1,g.obtenPersona(persona2)));
+ 				System.out.println(p1.nombre + " amigos " + g.obtenPersona(persona2).nombre + " ? "  + g.buscarAmistad(p1,g.obtenPersona(persona2)));
 				
 				return;
 			}
@@ -251,7 +255,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 				
 				//Buscar Amistades
 			
- 				System.out.println(g.buscarAmistad(g.obtenPersona(persona1),p2));
+ 				System.out.println(g.obtenPersona(persona1).nombre + " amigos " + p2.nombre + " ? " + g.buscarAmistad(g.obtenPersona(persona1),p2));
 				
 				return;
 			}
@@ -262,7 +266,7 @@ public  void leerRelaciones(String archivo, RedDeAmistades g) throws FileNotFoun
 			
 			//Buscar Amistades
 			
-			System.out.println(g.buscarAmistad(p1,p2));
+			System.out.println(p1.nombre + " amigos "+ p2.nombre + " ? " + g.buscarAmistad(p1,p2));
 			
 			//g.obtenPersona(p1).amistades.remove(new Amistad(g.obtenPersona(p1),g.obtenPersona(p2)));
 			//g.obtenPersona(p2).amistades.remove(new Amistad(g.obtenPersona(p2),g.obtenPersona(p1)));

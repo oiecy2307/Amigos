@@ -40,26 +40,8 @@ public class Persona {
     }
 	
  
- /* 
- El metodo removeEdge recorre todos los enlaces de un nodo en particular para eliminar un enlace en base a la ciudad 
- o torre destino que es recibida como parametro.
-   */
-    public void removeEdge(String destino) {
-    	
-    	for(int i = 0; i<this.amistades.size();i++) {
-    		
-            if (this.amistades.get(i).getPersona2().getNombre().compareToIgnoreCase(destino)==0) {
-            	
-                this.amistades.remove(i);
-                
-                return;
-                
-            }
-            
-        }
-    	
-    	
-    }
+
+ 
  
     /*El metodo addAmistad evalua si la lista de amistades está vacia, de asi serlo le agrega la amistad que recibimos como parametro, 
      sino, se busca entre las personas una coincidencia en base al nombre de la misma, si existe el metodo termina, caso contrario
@@ -79,7 +61,7 @@ public class Persona {
     		
             if (this.amistades.get(i).getPersona2().equals(amistad.getPersona2())) {
             	
-            	System.out.println("Si existe el enlace con " + amistad.getPersona2().getNombre());
+            	//System.out.println("Si existe el enlace con " + amistad.getPersona2().getNombre());
             	
             	return;
             

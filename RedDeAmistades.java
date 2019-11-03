@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class RedDeAmistades {
 	public ArrayList<Persona> personas = new ArrayList<Persona>();
-	public ArrayList<Persona> visitados = new ArrayList<Persona>();
 	public ArrayList<String> ignorados = new ArrayList<String>();
 
 	public ArrayList<Persona> getPersonas() {
@@ -28,21 +27,7 @@ public class RedDeAmistades {
 		return false;
 	}
 
-	public boolean esVisitado(Persona p) {
 
-		if (this.visitados.isEmpty()) {
-			return false;
-		}
-
-		for (int i = 0; i < this.visitados.size(); i++) {
-			if (this.visitados.get(i).equals(p)) {
-
-				return true;
-			}
-
-		}
-		return false;
-	}
 
 	public boolean existePersona(int p) {
 
@@ -72,6 +57,7 @@ public class RedDeAmistades {
 		String aux = "";
 		ArrayList<String> visit = new ArrayList<String>();
 		ArrayList<Persona> nivelamigos = new ArrayList<Persona>();
+
 		boolean val = false;
 		int nivel = 0;
 		int nivelOri = 0;
@@ -81,10 +67,17 @@ public class RedDeAmistades {
 			
 			nivelamigos=trazarCamino(this.obtenPersona(source),  target);
 		
-		if (nivelamigos!=null)nivelamigos.forEach(x->System.out.println(x.nombre));
-
-		System.out.println("Son amigos de nivel " + target + " de " + source.nombre);
-		// quitar comparacion
+		if (nivelamigos!=null) {
+			for(Persona x : nivelamigos ) {
+				aux = aux + x.nombre + " " + x.apellido+ ", ";
+			}
+			
+			System.out.println(aux + "son amigos de nivel " + target + " de " + source.nombre);
+		}else {
+			System.out.println(source.nombre + " no tiene amigos de nivel " + target );
+		}
+		
+		
 
 	}
 
@@ -100,9 +93,15 @@ public class RedDeAmistades {
 		if (this.existePersona(source))
         
 			nivelamigos=trazarCamino(this.obtenPersona(source),  target);
-		if (nivelamigos!=null)nivelamigos.forEach(x->System.out.println(x.nombre));
-		System.out.println("Son amigos de nivel " + target + " de " + source);
-		// quitar comparacion
+		if (nivelamigos!=null ) {
+			for(Persona x : nivelamigos ) {
+				aux = aux + x.nombre + " " + x.apellido + ", ";
+			}
+			
+			System.out.println(aux + "son amigos de nivel " + target + " de " + source);
+		}else {
+			System.out.println(source + " no tiene amigos de nivel " + target );
+		}
 
 	}
 
@@ -188,12 +187,13 @@ public class RedDeAmistades {
 			
 			if (nivelActual.isEmpty())
 				return null;
+
 			else {
 				for(Persona p : nivelActual ) {
 					
 					for(Amistad a : p.getAmistades()){
 						
-						if (!(visitados.contains(a.persona2) || nivelSig.contains(a.persona2))&& !nivelActual.contains(a.persona2)) {
+						if (!(visitados.contains(a.persona2) || nivelSig.contains(a.persona2) ||nivelActual.contains(a.persona2))) {
 							nivelSig.add(a.persona2);
 						}
 					}
@@ -210,6 +210,7 @@ public class RedDeAmistades {
 			}
 		i++;
 		}
+		
 
 		return nivelActual;
 	}
@@ -217,7 +218,7 @@ public class RedDeAmistades {
 
 
 	/*
-	 * Este metodo busca un nodo dentro del grafo en base a la ciudad, si lo
+	 * Este metodo busca una persona dentro del grafo en base al objeto persona, si lo
 	 * encuentra retorna un objeto de tipo CiudadNodo, caso contrario retorna un
 	 * nulo.
 	 * 
@@ -269,7 +270,7 @@ public class RedDeAmistades {
 	}
 
 	/*
-	 * El metodo agregaNodo evalua si la lista de nodos está vacia, de asi serlo le
+	 * El metodo agregaPersona evalua si la lista de nodos está vacia, de asi serlo le
 	 * agrega el nodo que recibimos como parametro, sino, se busca entre los nodos
 	 * una coincidencia en base al nombre de la torre, si existe el metodo termina,
 	 * caso contrario el nodo es agregado a la lista de nodos.
@@ -312,7 +313,7 @@ public class RedDeAmistades {
 	 * removiendo el ultimo visitado durante cada ejecucion.
 	 */
 
-	private boolean trazarCamino(Persona source, Persona origen, Persona destination, ArrayList<String> visited) {
+	/*private boolean trazarCamino(Persona source, Persona origen, Persona destination, ArrayList<String> visited) {
 
 		ArrayList<Amistad> adyacentes = obtenPersona(source).getAmistades();
 
@@ -339,5 +340,5 @@ public class RedDeAmistades {
 		visited.remove(visited.get(visited.size() - 1));
 		return false;
 	}
-
+*/
 }
